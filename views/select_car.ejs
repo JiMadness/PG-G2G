@@ -1,0 +1,126 @@
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css">
+    <link href="/stylesheets/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div class="section text-xs-center">
+    <div class="background-image"
+         style="background-image : url('/images/selectCar.jpg')"></div>
+    <% include ../partials/header %>
+    <div class="container">
+        <br><br><br>
+        <div class="row">
+            <h4 class="display-4 pi-draggable pi-item text-inverse">Select a Car to Finish Check</h4>
+            <br><br>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <input type="text" class="form-control" role="search" id="myInput" onkeyup="myFunction()"
+                       placeholder="Search All Fields..">
+            </div>
+            <br><br>
+            <div class="col-md-12">
+                <div class="table-responsive text-xs-center">
+                    <table class="table table-bordered table-inverse sortable" id="myTable">
+                        <thead>
+                        <tr class="text-primary text-xs-center" style="cursor: pointer">
+
+                            <th class="text-xs-center">Entrance Date
+                            </th>
+                            <th class="text-xs-center">Entrance Time
+                            </th>
+                            <th class="text-xs-center">Check Duration (Ongoing)
+                            </th>
+                            <th class="text-xs-center">Car Number
+                            </th>
+                            <th class="text-xs-center">Car Type
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% for(var i = 0;i < info.length;i++){ %>
+                        <tr class="text-xs-center">
+                            <td class="text-xs-center"><%= info[i].entrance_date.toString().substr(0, 15) %></td>
+                            <td class="text-xs-center"><%= info[i].entrance_date.toString().substr(16, 8) %></td>
+                            <td class="text-xs-center"><%= parseFloat(Math.abs(new Date() - info[i].entrance_date)
+                                        / 60000).toFixed(1) + ' Mins' %></td>
+                            <td class="text-xs-center" style="cursor: pointer"
+                                onclick="post('/cars/update',{id:<%= info[i].id %>})">
+                                <%= info[i].number %></td>
+                            <td class="text-xs-center"><%= info[i].type %></td>
+                            <td class="text-xs-center">
+                                <a onclick="location.href = this.href + '&reason=' + prompt('Why do you want to refuse ' +
+                                 'this car?','Enter reason here..'); return false;" href=<%= "./delete?id=" +
+                                info[i].id %>>Refuse</a>
+                            </td>
+                        </tr>
+                        <% } %>
+                        <br>
+                        </tbody>
+                    </table>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../partials/footer %>
+</div>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="http://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, j, tds;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            var flag = false;
+            for (j = 0; j < 12; j++) {
+                td = tr[i].getElementsByTagName("td")[j];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        flag = true;
+                        tr[i].style.display = "";
+                    } else if (!flag) {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    }
+</script>
+<script>function post(path, params, method) {
+        method = method || "post"; // Set method to post by default if not specified.
+
+        // The rest of this code assumes you are not using a library.
+        // It can be made less wordy if you use one.
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+
+        for (var key in params) {
+            if (params.hasOwnProperty(key)) {
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", key);
+                hiddenField.setAttribute("value", params[key]);
+
+                form.appendChild(hiddenField);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }</script>
+</body>
+</html>

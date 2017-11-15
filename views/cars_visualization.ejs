@@ -1,0 +1,166 @@
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh" content="60"/>
+    <title>P&G FP VPS | Current Vehicles Visualization</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+</head>
+
+<body>
+<% include ../partials/header.ejs %>
+<div class="container-fluid text-center mt-5" style="background-image : url('/images/carsTable.jpg');background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover">
+    <div class="container">
+        <br>
+        <div class="row">
+            <h4 class="display-4">Current Vehicles in Plant <strong
+                        style="background-color: rgba(211, 211, 211, 0.50); border-radius: 20px">(<%= length %>)
+                </strong>
+            </h4>
+            <br><br>
+        </div>
+        <div class="container-fluid row mt-5">
+            <div class="col card card-info">
+                <div class="card-header">
+                    Security
+                    Check<br><%= checkCars.jumbo + 'J/' + checkCars.trailer + 'T/' + checkCars.container + 'C' %>
+                </div>
+                <div class="card-text">
+                    <div class="row">
+                        <% for(var i = 0; i < checkCars.length;i++) { %>
+                        <div class="col-4 card card-img <%= checkCars[i].healthy ? 'card-success' : 'card-danger' %>"
+                             style="border-color: lightblue">
+                            <div class="card-header" style="overflow:hidden" title="<%= checkCars[i].number %>">
+                                <%= checkCars[i].number %>
+                            </div>
+                            <div class="card-img-bottom">
+                                <img width="50" height="50" src="/images/<%= checkCars[i].type %>.png"
+                                     title="<%= checkCars[i].type + '\n' + checkCars[i].currentStatusDuration.toFixed(0) %> Min">
+                            </div>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="col card card-primary">
+                <div class="card-header">
+                    Parking
+                    <br><%= parkingCars.jumbo + 'J/' + parkingCars.trailer + 'T/' + parkingCars.container + 'C' %>
+                </div>
+                <div class="card-text">
+                    <div class="row">
+                        <% for( i = 0; i < parkingCars.length;i++) { %>
+                        <div class="col-4 card card-img <%= parkingCars[i].healthy ? 'card-success' : 'card-danger' %>"
+                             style="border-color: blue">
+                            <div class="card-header" style="overflow:hidden" title="<%= parkingCars[i].number %>">
+                                <%= parkingCars[i].number %>
+                            </div>
+                            <div class="card-img-bottom">
+                                <img width="50" height="50" src="/images/<%= parkingCars[i].type %>.png"
+                                     title="<%=
+                                         parkingCars[i].type + '\nCurrent: ' + parkingCars[i].currentStatusDuration.toFixed(0)
+                                         + 'Min\nSecurity Check: ' + parkingCars[i].securityCheckDuration.toFixed(0) + 'Min'
+                                     %>">
+                            </div>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="col card card-info">
+                <div class="card-header">
+                    Docking
+                    <br><%= dockingCars.jumbo + 'J/' + dockingCars.trailer + 'T/' + dockingCars.container + 'C' %>
+                </div>
+                <div class="card-text">
+                    <div class="row">
+                        <% for(i = 0; i < dockingCars.length;i++) { %>
+                            <div class="col-4 card card-img <%= dockingCars[i].healthy ? 'card-success' : 'card-danger' %>"
+                            style="border-color: lightblue">
+                                <div class="card-header" style="overflow:hidden" title="<%= dockingCars[i].number %>">
+                                    <%= dockingCars[i].number %>
+                                </div>
+                                <div class="card-img-bottom">
+                                    <img width="50" height="50" src="/images/<%= dockingCars[i].type %>.png"
+                                         title="<%= dockingCars[i].dock_number + '\n' +
+                                         dockingCars[i].type + '\nCurrent: ' + dockingCars[i].currentStatusDuration.toFixed(0)
+                                         + 'Min\nSecurity Check: ' + dockingCars[i].securityCheckDuration.toFixed(0) + 'Min\nParking: '
+                                         + dockingCars[i].parkingDuration.toFixed(0) + 'Min'
+                                         %>">
+                                </div>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="col card card-primary">
+                <div class="card-header">
+                    Leaving<br><%= leavingCars.jumbo + 'J/' + leavingCars.trailer + 'T/' + leavingCars.container + 'C' %>
+                </div>
+                <div class="card-text">
+                    <div class="row">
+                        <% for(i = 0; i < leavingCars.length;i++) { %>
+                        <div class="col-4 card card-img <%= leavingCars[i].healthy ? 'card-success' : 'card-danger' %>"
+                             style="border-color: blue">
+                            <div class="card-header" style="overflow:hidden" title="<%= leavingCars[i].number %>">
+                                <%= leavingCars[i].number %>
+                            </div>
+                            <div class="card-img-bottom">
+                                <img width="50" height="50" src="/images/<%= leavingCars[i].type %>.png"
+                                     title="<%=
+                                         leavingCars[i].type + '\nCurrent: ' + leavingCars[i].currentStatusDuration.toFixed(0)
+                                         + 'Min\nSecurity Check: ' + leavingCars[i].securityCheckDuration.toFixed(0) + 'Min\nParking: '
+                                         + leavingCars[i].parkingDuration.toFixed(0) + 'Min\nDocking: '
+                                         + leavingCars[i].dockingDuration.toFixed(0) + 'Min'
+                                     %>">
+                            </div>
+                        </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container card">
+            <div class="card-header">Docks</div>
+            <div class="card-text row">
+                <% for(i = 1; i <= 20; i++){
+                    var dockCar = dockingCars.filter(function (car) {
+                        return car.dock_number == 'DOOR ' + (i + 10).toString();
+                    })[0];
+                %>
+                <div class="col-3 card">
+                    <div class="card-header">Dock <%= i %></div>
+                    <% if(dockCar){ %>
+                    <div class="card card-img <%= dockCar.healthy ? 'card-success' : 'card-danger' %>">
+                        <div class="card-header" style="overflow:hidden" title="<%= dockCar.number %>">
+                            <%= dockCar.number %>
+                        </div>
+                        <div class="card-img-bottom">
+                            <img width="50" height="50" src="/images/<%= dockCar.type %>.png"
+                                 title="<%= dockCar.dock_number + '\n' +
+                                 dockCar.type + '\nCurrent: ' + dockCar.currentStatusDuration.toFixed(0)
+                                 + 'Min\nSecurity Check: ' + dockCar.securityCheckDuration.toFixed(0) + 'Min\nParking: '
+                                 + dockCar.parkingDuration.toFixed(0) + 'Min'
+                                 %>">
+                        </div>
+                    </div>
+                    <% } else{ %>
+                    <div class="card" style="background-color: black">
+                        <strong style="color: whitesmoke">No Vehicle</strong>
+                    </div>
+                    <% } %>
+
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+<% include ../partials/footer.ejs %>
+</body>
+</html>

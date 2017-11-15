@@ -1,0 +1,500 @@
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>P&G FP VPS | Current Stats</title>
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+<% include ../partials/header.ejs %>
+<div class="container-fluid text-xs-center mt-5" style="background-image : url('/images/stats.jpg');background-position: center;
+    background-repeat: no-repeat; background-size: cover; min-height: 100%">
+    <div class="container text-center">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 class="display-4 text-center">Current Stats</h4>
+                <div class="btn-group btn-group-lg" role="group" aria-label="...">
+                    <button type="button" class="btn" id="dailyButton">Daily</button>
+                    <button type="button" class="btn" id="shiftBButton">Shift B</button>
+                    <button type="button" class="btn" id="shiftCButton">Shift C</button>
+                    <button type="button" class="btn" id="shiftAButton">Shift A</button>
+                </div>
+                <br><br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center" id="dailyTable">
+                    <table class="table table-bordered table-inverse sortable">
+                        <thead>
+                        <tr class="text-primary text-xs-center" style="cursor: pointer">
+                            <th class="text-xs-center">Vehicles
+                            </th>
+                            <th class="text-xs-center">Jumbo
+                            </th>
+                            <th class="text-xs-center">Trailer
+                            </th>
+                            <th class="text-xs-center">Container
+                            </th>
+                            <th class="text-xs-center">Total
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="text-xs-center">Under Security Check</td>
+                            <td class="text-xs-center"><%= info.daily.jumbo_in_check.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= info.daily.trailer_in_check.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= info.daily.container_in_check.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= (info.daily.jumbo_in_check + info.daily.trailer_in_check + info.daily.container_in_check).toFixed(0) %></td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">In Parking</td>
+                            <td class="text-xs-center"><%= info.daily.jumbo_in_parking.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= info.daily.trailer_in_parking.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= info.daily.container_in_parking.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= (info.daily.jumbo_in_parking + info.daily.trailer_in_parking + info.daily.container_in_parking).toFixed(0) %></td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">On Docks</td>
+                            <td class="text-xs-center"><%= info.daily.jumbo_in_dock.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= info.daily.trailer_in_dock.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= info.daily.container_in_dock.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= (info.daily.jumbo_in_dock + info.daily.trailer_in_dock + info.daily.container_in_dock).toFixed(0) %></td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Leaving</td>
+                            <td class="text-xs-center"><%= info.daily.jumbo_in_leave.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= info.daily.trailer_in_leave.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= info.daily.container_in_leave.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= (info.daily.jumbo_in_leave + info.daily.trailer_in_leave + info.daily.container_in_leave).toFixed(0) %></td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Out Of Site</td>
+                            <td class="text-xs-center"><%= info.daily.jumbo_in_finish.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= info.daily.trailer_in_finish.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= info.daily.container_in_finish.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= (info.daily.jumbo_in_finish + info.daily.trailer_in_finish + info.daily.container_in_finish).toFixed(0) %></td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Security Check Time (Minutes)</td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.daily.average_check_time_jumbo.toFixed(0) %>
+                                <br><%= 'Max: ' + info.daily.max_check_time_jumbo.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.daily.average_check_time_trailer.toFixed(0) %>
+                                <br><%= 'Max: ' + info.daily.max_check_time_trailer.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.daily.average_check_time_container.toFixed(0) %>
+                                <br><%= 'Max: ' + info.daily.max_check_time_container.toFixed(0) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Parking Time (Minutes)</td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.daily.average_parking_time_jumbo.toFixed(0) %>
+                                <br><%= 'Max: ' + info.daily.max_parking_time_jumbo.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.daily.average_parking_time_trailer.toFixed(0) %>
+                                <br><%= 'Max: ' + info.daily.max_parking_time_trailer.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.daily.average_parking_time_container.toFixed(0) %>
+                                <br><%= 'Max: ' + info.daily.max_parking_time_container.toFixed(0) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Docking Time (Minutes)</td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.daily.average_dock_time_jumbo.toFixed(0) %>
+                                <br><%= 'Max: ' + info.daily.max_dock_time_jumbo.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.daily.average_dock_time_trailer.toFixed(0) %>
+                                <br><%= 'Max: ' + info.daily.max_dock_time_trailer.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.daily.average_dock_time_container.toFixed(0) %>
+                                <br><%= 'Max: ' + info.daily.max_dock_time_container.toFixed(0) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Leaving Time (Minutes)</td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.daily.average_leaving_time_jumbo.toFixed(0) %>
+                                <br><%= 'Max: ' + info.daily.max_leaving_time_jumbo.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.daily.average_leaving_time_trailer.toFixed(0) %>
+                                <br><%= 'Max: ' + info.daily.max_leaving_time_trailer.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.daily.average_leaving_time_container.toFixed(0) %>
+                                <br><%= 'Max: ' + info.daily.max_leaving_time_container.toFixed(0) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Total Time (Minutes)</td>
+                            <td class="text-xs-center">Avr:
+                                <h6 style=<%= info.daily.average_total_time_jumbo > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.daily.average_total_time_jumbo.toFixed(0) %></h6>
+                                Max:
+                                <h6 style=<%= info.daily.max_total_time_jumbo > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.daily.max_total_time_jumbo.toFixed(0) %></h6>
+                            </td>
+                            <td class="text-xs-center">Avr:
+                                <h6 style=<%= info.daily.average_total_time_trailer > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.daily.average_total_time_trailer.toFixed(0) %></h6>
+                                Max:
+                                <h6 style=<%= info.daily.max_total_time_trailer > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.daily.max_total_time_trailer.toFixed(0) %></h6>
+                            </td>
+                            <td class="text-xs-center">Avr:
+                                <h6 style=<%= info.daily.average_total_time_container > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.daily.average_total_time_container.toFixed(0) %></h6>
+                                Max:
+                                <h6 style=<%= info.daily.max_total_time_container > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.daily.max_total_time_container.toFixed(0) %></h6>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                </div>
+                <div class="table-responsive text-xs-center" id="shiftATable">
+                    <table class="table table-bordered table-inverse sortable">
+                        <thead>
+                        <tr class="text-primary text-xs-center" style="cursor: pointer">
+                            <th class="text-xs-center">Vehicles
+                            </th>
+                            <th class="text-xs-center">Jumbo
+                            </th>
+                            <th class="text-xs-center">Trailer
+                            </th>
+                            <th class="text-xs-center">Container
+                            </th>
+                            <th class="text-xs-center">Total
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="text-xs-center">Out Of Site</td>
+                            <td class="text-xs-center"><%= info.shiftA.jumbo_in_finish.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= info.shiftA.trailer_in_finish.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= info.shiftA.container_in_finish.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= (info.shiftA.jumbo_in_finish + info.shiftA.trailer_in_finish + info.shiftA.container_in_finish).toFixed(0) %></td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Security Check Time (Minutes)</td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftA.average_check_time_jumbo.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftA.max_check_time_jumbo.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftA.average_check_time_trailer.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftA.max_check_time_trailer.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftA.average_check_time_container.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftA.max_check_time_container.toFixed(0) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Parking Time (Minutes)</td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftA.average_parking_time_jumbo.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftA.max_parking_time_jumbo.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftA.average_parking_time_trailer.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftA.max_parking_time_trailer.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftA.average_parking_time_container.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftA.max_parking_time_container.toFixed(0) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Docking Time (Minutes)</td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftA.average_dock_time_jumbo.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftA.max_dock_time_jumbo.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftA.average_dock_time_trailer.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftA.max_dock_time_trailer.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftA.average_dock_time_container.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftA.max_dock_time_container.toFixed(0) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Leaving Time (Minutes)</td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftA.average_leaving_time_jumbo.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftA.max_leaving_time_jumbo.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftA.average_leaving_time_trailer.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftA.max_leaving_time_trailer.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftA.average_leaving_time_container.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftA.max_leaving_time_container.toFixed(0) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Total Time (Minutes)</td>
+                            <td class="text-xs-center">Avr:
+                                <h6 style=<%= info.shiftA.average_total_time_jumbo > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftA.average_total_time_jumbo.toFixed(0) %></h6>
+                                Max:
+                                <h6 style=<%= info.shiftA.max_total_time_jumbo > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftA.max_total_time_jumbo.toFixed(0) %></h6>
+                            </td>
+                            <td class="text-xs-center">Avr:
+                                <h6 style=<%= info.shiftA.average_total_time_trailer > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftA.average_total_time_trailer.toFixed(0) %></h6>
+                                Max:
+                                <h6 style=<%= info.shiftA.max_total_time_trailer > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftA.max_total_time_trailer.toFixed(0) %></h6>
+                            </td>
+                            <td class="text-xs-center">Avr:
+                                <h6 style=<%= info.shiftA.average_total_time_container > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftA.average_total_time_container.toFixed(0) %></h6>
+                                Max:
+                                <h6 style=<%= info.shiftA.max_total_time_container > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftA.max_total_time_container.toFixed(0) %></h6>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                </div>
+                <div class="table-responsive text-xs-center" id="shiftBTable">
+                    <table class="table table-bordered table-inverse sortable">
+                        <thead>
+                        <tr class="text-primary text-xs-center" style="cursor: pointer">
+                            <th class="text-xs-center">Vehicles
+                            </th>
+                            <th class="text-xs-center">Jumbo
+                            </th>
+                            <th class="text-xs-center">Trailer
+                            </th>
+                            <th class="text-xs-center">Container
+                            </th>
+                            <th class="text-xs-center">Total
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="text-xs-center">Out Of Site</td>
+                            <td class="text-xs-center"><%= info.shiftB.jumbo_in_finish.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= info.shiftB.trailer_in_finish.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= info.shiftB.container_in_finish.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= (info.shiftB.jumbo_in_finish + info.shiftB.trailer_in_finish + info.shiftB.container_in_finish).toFixed(0) %></td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Security Check Time (Minutes)</td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftB.average_check_time_jumbo.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftB.max_check_time_jumbo.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftB.average_check_time_trailer.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftB.max_check_time_trailer.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftB.average_check_time_container.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftB.max_check_time_container.toFixed(0) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Parking Time (Minutes)</td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftB.average_parking_time_jumbo.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftB.max_parking_time_jumbo.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftB.average_parking_time_trailer.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftB.max_parking_time_trailer.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftB.average_parking_time_container.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftB.max_parking_time_container.toFixed(0) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Docking Time (Minutes)</td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftB.average_dock_time_jumbo.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftB.max_dock_time_jumbo.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftB.average_dock_time_trailer.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftB.max_dock_time_trailer.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftB.average_dock_time_container.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftB.max_dock_time_container.toFixed(0) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Leaving Time (Minutes)</td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftB.average_leaving_time_jumbo.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftB.max_leaving_time_jumbo.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftB.average_leaving_time_trailer.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftB.max_leaving_time_trailer.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftB.average_leaving_time_container.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftB.max_leaving_time_container.toFixed(0) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Total Time (Minutes)</td>
+                            <td class="text-xs-center">Avr:
+                                <h6 style=<%= info.shiftB.average_total_time_jumbo > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftB.average_total_time_jumbo.toFixed(0) %></h6>
+                                Max:
+                                <h6 style=<%= info.shiftB.max_total_time_jumbo > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftB.max_total_time_jumbo.toFixed(0) %></h6>
+                            </td>
+                            <td class="text-xs-center">Avr:
+                                <h6 style=<%= info.shiftB.average_total_time_trailer > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftB.average_total_time_trailer.toFixed(0) %></h6>
+                                Max:
+                                <h6 style=<%= info.shiftB.max_total_time_trailer > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftB.max_total_time_trailer.toFixed(0) %></h6>
+                            </td>
+                            <td class="text-xs-center">Avr:
+                                <h6 style=<%= info.shiftB.average_total_time_container > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftB.average_total_time_container.toFixed(0) %></h6>
+                                Max:
+                                <h6 style=<%= info.shiftB.max_total_time_container > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftB.max_total_time_container.toFixed(0) %></h6>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                </div>
+                <div class="table-responsive text-xs-center" id="shiftCTable">
+                    <table class="table table-bordered table-inverse sortable">
+                        <thead>
+                        <tr class="text-primary text-xs-center" style="cursor: pointer">
+                            <th class="text-xs-center">Vehicles
+                            </th>
+                            <th class="text-xs-center">Jumbo
+                            </th>
+                            <th class="text-xs-center">Trailer
+                            </th>
+                            <th class="text-xs-center">Container
+                            </th>
+                            <th class="text-xs-center">Total
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="text-xs-center">Out Of Site</td>
+                            <td class="text-xs-center"><%= info.shiftC.jumbo_in_finish.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= info.shiftC.trailer_in_finish.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= info.shiftC.container_in_finish.toFixed(0) %></td>
+                            <td class="text-xs-center"><%= (info.shiftC.jumbo_in_finish + info.shiftC.trailer_in_finish + info.shiftC.container_in_finish).toFixed(0) %></td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Security Check Time (Minutes)</td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftC.average_check_time_jumbo.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftC.max_check_time_jumbo.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftC.average_check_time_trailer.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftC.max_check_time_trailer.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftC.average_check_time_container.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftC.max_check_time_container.toFixed(0) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Parking Time (Minutes)</td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftC.average_parking_time_jumbo.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftC.max_parking_time_jumbo.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftC.average_parking_time_trailer.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftC.max_parking_time_trailer.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftC.average_parking_time_container.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftC.max_parking_time_container.toFixed(0) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Docking Time (Minutes)</td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftC.average_dock_time_jumbo.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftC.max_dock_time_jumbo.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftC.average_dock_time_trailer.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftC.max_dock_time_trailer.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftC.average_dock_time_container.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftC.max_dock_time_container.toFixed(0) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Leaving Time (Minutes)</td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftC.average_leaving_time_jumbo.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftC.max_leaving_time_jumbo.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftC.average_leaving_time_trailer.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftC.max_leaving_time_trailer.toFixed(0) %>
+                            </td>
+                            <td class="text-xs-center"><%= 'Avr: ' + info.shiftC.average_leaving_time_container.toFixed(0) %>
+                                <br><%= 'Max: ' + info.shiftC.max_leaving_time_container.toFixed(0) %>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-xs-center">Total Time (Minutes)</td>
+                            <td class="text-xs-center">Avr:
+                                <h6 style=<%= info.shiftC.average_total_time_jumbo > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftC.average_total_time_jumbo.toFixed(0) %></h6>
+                                Max:
+                                <h6 style=<%= info.shiftC.max_total_time_jumbo > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftC.max_total_time_jumbo.toFixed(0) %></h6>
+                            </td>
+                            <td class="text-xs-center">Avr:
+                                <h6 style=<%= info.shiftC.average_total_time_trailer > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftC.average_total_time_trailer.toFixed(0) %></h6>
+                                Max:
+                                <h6 style=<%= info.shiftC.max_total_time_trailer > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftC.max_total_time_trailer.toFixed(0) %></h6>
+                            </td>
+                            <td class="text-xs-center">Avr:
+                                <h6 style=<%= info.shiftC.average_total_time_container > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftC.average_total_time_container.toFixed(0) %></h6>
+                                Max:
+                                <h6 style=<%= info.shiftC.max_total_time_container > 3 * 60 ? 'color:red' : 'color:green' %>><%= info.shiftC.max_total_time_container.toFixed(0) %></h6>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<% include ../partials/footer.ejs %>
+<script type="text/javascript" src="/javascripts/sorttable.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#shiftATable').hide();
+        $('#shiftBTable').hide();
+        $('#shiftCTable').hide();
+        $('#dailyButton').addClass('btn-primary')
+                .click(function () {
+                    $('#dailyButton').addClass('btn-primary');
+                    $('#shiftAButton').removeClass('btn-primary');
+                    $('#shiftBButton').removeClass('btn-primary');
+                    $('#shiftCButton').removeClass('btn-primary');
+                    $('#shiftATable').hide();
+                    $('#shiftBTable').hide();
+                    $('#shiftCTable').hide();
+                    $('#dailyTable').show();
+                });
+        $('#shiftAButton').click(function () {
+            $('#shiftAButton').addClass('btn-primary');
+            $('#dailyButton').removeClass('btn-primary');
+            $('#shiftBButton').removeClass('btn-primary');
+            $('#shiftCButton').removeClass('btn-primary');
+            $('#dailyTable').hide();
+            $('#shiftBTable').hide();
+            $('#shiftCTable').hide();
+            $('#shiftATable').show();
+        });
+        $('#shiftBButton').click(function () {
+            $('#shiftBButton').addClass('btn-primary');
+            $('#dailyButton').removeClass('btn-primary');
+            $('#shiftAButton').removeClass('btn-primary');
+            $('#shiftCButton').removeClass('btn-primary');
+            $('#dailyTable').hide();
+            $('#shiftATable').hide();
+            $('#shiftCTable').hide();
+            $('#shiftBTable').show();
+        });
+        $('#shiftCButton').click(function () {
+            $('#shiftCButton').addClass('btn-primary');
+            $('#dailyButton').removeClass('btn-primary');
+            $('#shiftBButton').removeClass('btn-primary');
+            $('#shiftAButton').removeClass('btn-primary');
+            $('#dailyTable').hide();
+            $('#shiftBTable').hide();
+            $('#shiftATable').hide();
+            $('#shiftCTable').show();
+        });
+    });
+</script>
+<script>
+    var time = new Date().getTime();
+    $(document.body).bind("mousemove keypress", function () {
+        time = new Date().getTime();
+    });
+    function refresh() {
+        if (new Date().getTime() - time >= 80000)
+            window.location.reload(true);
+        else
+            setTimeout(refresh, 10000);
+    }
+    setTimeout(refresh, 10000);
+</script>
+</body>
+</html>

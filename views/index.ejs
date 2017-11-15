@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>P&G FP VPS</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+</head>
+<body style="background-color: #3250a0">
+<div class="container">
+    <br><br><br>
+    <div class="row">
+        <div class="col jumbotron">
+            <img src="/images/logo.png"
+                 width="100" height="100" class="rounded float-right">
+            <h1 class="display-3">P&G FP VPS</h1>
+            <p class="lead">System designed for <strong>P&G October 6 Plant Warehouse</strong> for monitoring shipping
+                vehicle timings to increase the shipping efficiency.</p>
+            <hr class="my-4">
+            <p>Developed, owned, and maintained by P&G October 6 Plant, Egypt.</p>
+            <p class="lead">
+                <a class="btn btn-primary btn-lg" data-toggle="modal" data-target="#login-modal" role="button">Login</a>
+            </p>
+        </div>
+    </div>
+    <footer>
+        <small class="float-left">
+            Designed and built with all the love in the world by <a target="_blank" href="https://github.com/JiMadness">Mohamed
+                Gamal</a>.
+        </small>
+        <small class="float-right">
+            Currently V2.0.0. Egypt, 2017.
+        </small>
+        <br>
+    </footer>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="login-modal" tabindex="-1" role="form" aria-labelledby="loginModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="login-form" method="post" action="/login">
+                    <div class="form-group">
+                        <label for="username-text-input">Username:</label>
+                        <input type="text" name="username" class="form-control" id="username-text-input"
+                               placeholder="Username" required>
+                        <br>
+                        <label for="password-text-input">Password:</label>
+                        <input type="password" name="password" class="form-control" id="password-text-input"
+                               placeholder="Password" required>
+                        <small id="password-help" class="form-text text-muted">We'll never share your password with
+                            anyone
+                            else.
+                        </small>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" form="login-form" class="btn btn-primary"
+                        onclick="document.getElementById('login-form').submit()">Login
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jQuery first, then Tether, then Bootstrap JS. -->
+<script src="/javascripts/jquery-3.1.1.min.js"></script>
+<script src="/javascripts/tether.min.js"></script>
+<script src="/javascripts/bootstrap.min.js"></script>
+</body>
+</html>

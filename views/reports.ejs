@@ -1,0 +1,86 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>P&G FP VPS | Reports</title>
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<% include ../partials/header.ejs %>
+<div class="container-fluid text-center mt-5" style="background-image : url('/images/reports.jpg');background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover">
+    <div class="container">
+        <br><br>
+        <div class="row">
+            <h3 class="display-3" style="color: white;background-color: rgba(255, 255, 255, 0.25)">Reports Menu</h3>
+        </div>
+        <br><br>
+        <div class="row form-group p-2" style="background-color: rgba(255, 255, 255, 0.25)">
+            <label class="form-control">Start Date: <input type="date" id="startDate" required></label>
+            <br>
+            <label class="form-control">&nbsp;End Date:&nbsp;<input type="date" id="endDate" required></label>
+            <br>
+            <label class="form-control">Shift:
+                <select id="shift" required>
+                    <option value="D">Daily</option>
+                    <option value="A">Shift A</option>
+                    <option value="B">Shift B</option>
+                    <option value="C">Shift C</option>
+                </select>
+            </label>
+        </div>
+        <div class="row">
+            <div class="col-4"><a class="btn btn-primary p-5"
+                                  onclick="post('/reports',{type:'cars',startDate:getStartDate(),
+                                     endDate:getEndDate(),shift:getShift()},'post')">Vehicles Report</a></div>
+
+            <div class="col-4"><a class="btn btn-primary p-5"
+                                  onclick="post('/reports',{type:'refused-cars',startDate:getStartDate(),
+                                     endDate:getEndDate(),shift:getShift()},'post')">Refused Vehicles Report</a></div>
+            <div class="col-4"><a class="btn btn-primary p-5"
+                                  onclick="post('/reports',{type:'stats',startDate:getStartDate(),
+                                     endDate:getEndDate(),shift:getShift()},'post')">Summary Report</a></div>
+        </div>
+    </div>
+    <br><br>
+</div>
+<% include ../partials/footer.ejs %>
+<script>function post(path, params, method) {
+        method = method || "post"; // Set method to post by default if not specified.
+
+        // The rest of this code assumes you are not using a library.
+        // It can be made less wordy if you use one.
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+
+        for (var key in params) {
+            if (params.hasOwnProperty(key)) {
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", key);
+                hiddenField.setAttribute("value", params[key]);
+
+                form.appendChild(hiddenField);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }</script>
+<script>function getStartDate() {
+        return document.getElementById('startDate').value;
+    }
+    function getEndDate() {
+        return document.getElementById('endDate').value;
+    }
+    function getShift() {
+        return document.getElementById('shift').value;
+    }
+</script>
+</body>
+
+</html>

@@ -1,0 +1,129 @@
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>P&G FP VPS | Vehicles Report</title>
+    <link href="/stylesheets/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css">
+    <link href="https://cdn.datatables.net/buttons/1.4.2/css/buttons.dataTables.min.css" rel="stylesheet"
+          type="text/css">
+</head>
+
+<body>
+<% include ../partials/header.ejs %>
+<div class="container-fluid text-center mt-5 h-100" style="background-image : url('/images/carsTable.jpg');background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover">
+    <div class="container">
+        <br><br><br>
+        <div class="row m-auto">
+            <h4 class="display-4">Vehicles Report</h4>
+            <h4 class="">From <%= startDate %> to <%= endDate %></h4>
+            <br>
+        </div>
+        <div class="row">
+            <div class="col-md-12 bg-faded">
+                <table class="table table-bordered table-responsive table-inverse pre-scrollable" id="myTable">
+                    <thead>
+                    <tr class="text-primary text-xs-center" style="cursor: pointer">
+
+                        <th class="text-xs-center">Entrance Date
+                        </th>
+                        <th class="text-xs-center">Entrance Time
+                        </th>
+                        <th class="text-xs-center">Car Number
+                        </th>
+                        <th class="text-xs-center">Car Type
+                        </th>
+                        <th class="text-xs-center">Shift
+                        </th>
+                        <th class="text-xs-center">Security Check Finish Date
+                        </th>
+                        <th class="text-xs-center">Security Check Finish Time
+                        </th>
+                        <th class="text-xs-center">Docking Start Date
+                        </th>
+                        <th class="text-xs-center">Docking Start Time
+                        </th>
+                        <th class="text-xs-center">Docking Finish Date
+                        </th>
+                        <th class="text-xs-center">Docking Finish Time
+                        </th>
+                        <th class="text-xs-center">Leaving Date
+                        </th>
+                        <th class="text-xs-center">Leaving Time
+                        </th>
+                        <th class="text-xs-center">Security Check Duration (Mins)
+                        </th>
+                        <th class="text-xs-center">Parking Duration (Mins)
+                        </th>
+                        <th class="text-xs-center">Docking Duration (Mins)
+                        </th>
+                        <th class="text-xs-center">Leaving Duration (Mins)
+                        </th>
+                        <th class="text-xs-center">GTG Duration (Mins)
+                        </th>
+                        <th class="text-xs-center">Check-in User T-Number
+                        </th>
+                        <th class="text-xs-center">Check-out User T-Number
+                        </th>
+                        <th class="text-xs-center">Comment (If Any)
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <% for(var i = 0;i < info.length;i++){ %>
+                    <tr>
+                        <td class="text-xs-center"><%= moment(info[i].entrance_date).format("DD/MM/YYYY") %></td>
+                        <td class="text-xs-center"><%= moment(info[i].entrance_date).format("h:mm:ss a") %></td>
+                        <td class="text-xs-center"><%= info[i].number %></td>
+                        <td class="text-xs-center"><%= info[i].type %></td>
+                        <td class="text-xs-center"><%= info[i].shift %></td>
+                        <td class="text-xs-center"><%= moment(info[i].sc_finish_time).format("DD/MM/YYYY") %></td>
+                        <td class="text-xs-center"><%= moment(info[i].sc_finish_time).format("h:mm:ss a") %></td>
+                        <td class="text-xs-center"><%= moment(info[i].docking_start_time).format("DD/MM/YYYY") %></td>
+                        <td class="text-xs-center"><%= moment(info[i].docking_start_time).format("h:mm:ss a") %></td>
+                        <td class="text-xs-center"><%= moment(info[i].docking_finish_time).format("DD/MM/YYYY") %></td>
+                        <td class="text-xs-center"><%= moment(info[i].docking_finish_time).format("h:mm:ss a") %></td>
+                        <td class="text-xs-center"><%= moment(info[i].leaving_time).format("DD/MM/YYYY") %></td>
+                        <td class="text-xs-center"><%= moment(info[i].leaving_time).format("h:mm:ss a") %></td>
+                        <td class="text-xs-center"><%= parseFloat(Math.abs(info[i].entrance_date - info[i].sc_finish_time) / 60000)
+                                    .toFixed(1) %></td>
+                        <td class="text-xs-center"><%= parseFloat(Math.abs(info[i].sc_finish_time - info[i].docking_start_time) / 60000)
+                                    .toFixed(1) %></td>
+                        <td class="text-xs-center"><%= parseFloat(Math.abs(info[i].docking_finish_time - info[i].docking_start_time) / 60000)
+                                    .toFixed(1) %></td>
+                        <td class="text-xs-center"><%= parseFloat(Math.abs(info[i].docking_finish_time - info[i].leaving_time) / 60000)
+                                    .toFixed(1) %></td>
+                        <td class="text-xs-center"><%= parseFloat(Math.abs(info[i].entrance_date - info[i].leaving_time) / 60000)
+                                    .toFixed(1) %></td>
+                        <td class="text-xs-center"><%= info[i].checkin_user_Tnum %></td>
+                        <td class="text-xs-center"><%= info[i].checkout_user_Tnum %></td>
+                        <td class="text-xs-center"><%= info[i].comment %></td>
+                    </tr>
+                    <% } %>
+                    <br>
+                    </tbody>
+                </table>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<% include ../partials/footer.ejs %>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.4.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.4.2/js/buttons.html5.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#myTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', {extend: 'csv', text: 'Export to Excel'}
+            ]
+        });
+    });
+</script>
+</body>
+</html>

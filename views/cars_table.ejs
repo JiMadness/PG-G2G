@@ -1,0 +1,179 @@
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh" content="60"/>
+    <title>P&G FP VPS | Current Vehicles</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+</head>
+
+<body>
+<% include ../partials/header.ejs %>
+<div class="container-fluid text-center mt-5" style="background-image : url('/images/carsTable.jpg');background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover">
+    <div class="container">
+        <br>
+        <div class="row">
+            <h4 class="display-4">Current Vehicles in Plant <strong
+                        style="background-color: rgba(211, 211, 211, 0.50); border-radius: 20px">(<%= info.length %>)
+                </strong>
+            </h4>
+            <br><br><br><br>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <input type="text" class="form-control" role="search" id="myInput" onkeyup="myFunction()"
+                       placeholder="Search All Fields..">
+            </div>
+            <br>
+            <table class="mb-4 col-12 table table-bordered table-hover sortable table-success"
+                   id="myTable">
+                <thead>
+                <tr class="text-primary text-center" style="cursor: pointer">
+                    <th class="text-center">Entrance Date
+                    </th>
+                    <th class="text-center">Entrance Time
+                    </th>
+                    <th class="text-center">Car Number
+                    </th>
+                    <th class="text-center">Car Type
+                    </th>
+                    <th class="text-center">Current Status
+                    </th>
+                    <th class="text-center">Current Status Duration
+                    </th>
+                    <th class="text-center">Comment (If any)
+                    </th>
+                    <th class="text-center">Refuse
+                    </th>
+                    <th class="text-center">Add Comment
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <% for(var i = 0;i < info.length;i++){ %>
+                <tr class="text-center">
+                    <td class="text-center"><%= info[i].entrance_date.toString().substr(0, 15) %></td>
+                    <td class="text-center"><%= info[i].entrance_date.toString().substr(16, 8) %></td>
+                    <td class="text-center"><%= info[i].number %></td>
+                    <td class="text-center"><%= info[i].type %></td>
+                    <td class="text-center">
+                        <% if (info[i].current_status == 'S'){ %>
+                        Security Check
+                        <% }else if (info[i].current_status == 'P'){ %>
+                        Parking
+                        <% }else if (info[i].current_status == 'D'){ %>
+                        Docking
+                        <% }else if (info[i].current_status == 'L'){ %>
+                        Leaving
+                        <% } %>
+                    </td>
+                    <td class="text-center">
+                        <% if (info[i].current_status == 'S'){ %>
+                        <%= parseFloat(Math.abs(new Date() - info[i].entrance_date)
+                                / 60000).toFixed(1) + ' Mins' %>
+                        <% }else if (info[i].current_status == 'P'){ %>
+                        <%= parseFloat(Math.abs(new Date() - info[i].sc_finish_time)
+                                / 60000).toFixed(1) + ' Mins' %>
+                        <% }else if (info[i].current_status == 'D'){ %>
+                        <%= parseFloat(Math.abs(new Date() - info[i].docking_start_time)
+                                / 60000).toFixed(1) + ' Mins' %>
+                        <% }else if (info[i].current_status == 'L'){ %>
+                        <%= parseFloat(Math.abs(new Date() - info[i].docking_finish_time)
+                                / 60000).toFixed(1) + ' Mins' %>
+                        <% } %>
+                    </td>
+                    <td class="text-center">
+                        <%= info[i].comment %>
+                    </td>
+                    <td class="text-center">
+                        <a onclick="onRefuse(<%= info[i].id %>)"
+                           id=<%= "refuse" + info[i].id %> href="#">Refuse</a>
+                    </td>
+                    <td class="text-center">
+                        <a onclick="onComment(<%= info[i].id %>)"
+                           id=<%= "comment" + info[i].id %> href="#">Comment</a>
+                    </td>
+                </tr>
+                <% } %>
+                <br>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<% include ../partials/footer.ejs %>
+<script src="/javascripts/sorttable.js"></script>
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, j, tds;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            var flag = false;
+            for (j = 0; j < 12; j++) {
+                td = tr[i].getElementsByTagName("td")[j];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        flag = true;
+                        tr[i].style.display = "";
+                    } else if (!flag) {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    }
+</script>
+<script>function post(path, params, method) {
+        method = method || "post"; // Set method to post by default if not specified.
+
+        // The rest of this code assumes you are not using a library.
+        // It can be made less wordy if you use one.
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+
+        for (var key in params) {
+            if (params.hasOwnProperty(key)) {
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", key);
+                hiddenField.setAttribute("value", params[key]);
+
+                form.appendChild(hiddenField);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }</script>
+<script>
+    function onRefuse(id) {
+        var reason = prompt('Why do you want to refuse ' +
+                'this car?', 'Enter reason here..');
+        if (reason === null || reason == '' || reason == 'Enter reason here..')
+            return false;
+        else {
+            document.getElementById("refuse" + id).href = "./delete?id=" + id + '&reason=' + reason;
+            return true;
+        }
+    }
+    function onComment(id) {
+        var comment = prompt("Please enter your comment here.", "Enter comment here..");
+        if (comment === null || comment == '' || comment == 'Enter comment here..')
+            return false;
+        else {
+            document.getElementById("comment" + id).href = "./comment?id=" + id + '&comment=' + comment;
+            return true;
+        }
+    }
+</script>
+</body>
+</html>

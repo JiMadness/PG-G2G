@@ -1,0 +1,56 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css">
+    <link href="/stylesheets/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div class="section section-opaque-dark text-xs-center">
+    <div class="background-image section "
+         style="background-image : url('/images/securityHome.jpg')"></div>
+    <% include ../partials/header %>
+    <div class="section" style="background-color: rgba(220, 220, 220, 0.4)">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 p-y-3">
+                    <h4 class="display-4 pi-draggable pi-item text-inverse">Welcome <%= name %></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="m-y-3 section">
+        <div class="container" style="background-color: rgba(211, 211, 211, 0.31);padding: 10px">
+            <% if(msg != ""){ %>
+            <div class="row">
+                <label class="alert alert-success"><%= msg %></label>
+            </div>
+            <% } %>
+            <div class="row" draggable="true">
+                <div class="col-lg-6">
+                    <a href="/cars/new" class="btn btn-block btn-primary m-y-3 p-y-3">New Car On Gate<br></a>
+                </div>
+                <div class="col-lg-6">
+                    <a href="/cars/select" class="btn btn-block btn-primary m-y-3 p-y-3">Finish Security Check For
+                        Car</a>
+                </div>
+            </div>
+            <div class="row" draggable="true">
+                <div class="col-lg-6">
+                    <a href="/cars/checkout" class="btn btn-block btn-primary m-y-3 p-y-3">Check Car Out<br></a>
+                </div>
+                <div class="col-lg-6">
+                    <a href="./notify" class="btn btn-block btn-primary m-y-3 p-y-3">Car to Dock Notification<br></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../partials/footer %>
+</div>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+</body>
+</html>

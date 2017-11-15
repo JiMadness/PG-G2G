@@ -1,0 +1,97 @@
+<html xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.1/css/font-awesome.min.css" rel="stylesheet"
+          type="text/css">
+    <link href="/stylesheets/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+<div class="section text-xs-center">
+    <div class="background-image"
+         style="background-image : url('/images/manageUsers.jpg')"></div>
+    <% include ../partials/header %>
+    <div class="container">
+        <br><br><br>
+        <div class="row">
+            <h4 class="display-4 pi-draggable pi-item text-inverse">Manage Users</h4>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <br>
+                <br>
+                <input type="text" class="form-control" role="search" id="myInput" onkeyup="myFunction()"
+                       placeholder="Search All Fields..">
+            </div>
+            <div class="col-md-12">
+                <div class="table-responsive text-xs-center">
+                    <table class="table table-bordered table-inverse sortable" id="myTable">
+                        <thead>
+                        <tr class="text-primary text-xs-center" style="cursor: pointer">
+                            <th>
+                                Username
+                            </th>
+                            <th>Name
+                            </th>
+                            <th class="text-xs-center">Security/Warehouse
+                            </th>
+                            <th class="text-xs-center">T-Number (Warehouse Only)
+                            </th>
+                            <th><a href="./new">Add</a></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% for(var i = 0;i < info.length;i++){ %>
+                        <tr>
+                            <td><%= info[i].username %></td>
+                            <td><%= info[i].name %></td>
+
+                            <td><%= info[i].is_security ? 'Security' : info[i].is_warehouse? 'Warehouse' : 'Admin'%></td>
+                            <td><%= info[i].is_warehouse ? info[i].T_number : 'N/A' %></td>
+                            <td><a href=<%= "./edit?username=" + info[i].username %>>Edit</a>
+                                <br>
+                                <a href= <%= "./delete?username=" + info[i].username %>>Delete</a></td>
+                        </tr>
+                        <% } %>
+                        <br>
+                        </tbody>
+                    </table>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% include ../partials/footer %>
+</div>
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.rawgit.com/twbs/bootstrap/v4-dev/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="http://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
+<script>
+    function myFunction() {
+        // Declare variables
+        var input, filter, table, tr, td, i, j, tds;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("myTable");
+        tr = table.getElementsByTagName("tr");
+        // Loop through all table rows, and hide those who don't match the search query
+        for (i = 0; i < tr.length; i++) {
+            var flag = false;
+            for (j = 0; j < 12; j++) {
+                td = tr[i].getElementsByTagName("td")[j];
+                if (td) {
+                    if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        flag = true;
+                        tr[i].style.display = "";
+                    } else if (!flag) {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    }
+</script>
+</body>
+</html>

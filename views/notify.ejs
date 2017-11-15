@@ -1,0 +1,49 @@
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="refresh" content="60"/>
+    <title>P&G FP VPS | Vehicles to Docks Interface</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+</head>
+
+<body>
+<% include ../partials/header.ejs %>
+<div class="container-fluid text-center mt-5" style="background-image : url('/images/carsTable.jpg');background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover">
+    <div class="container">
+        <br>
+        <div class="row">
+            <h3 class="display-3">Vehicles to Docks Interface</h3>
+            <br><br>
+        </div>
+        <div class="container-fluid row mt-5">
+            <div class="col card">
+                <% for(var i = 0; i < cars.length; i++){ %>
+                <div class="card card-warning m-1 danger">
+                    <div class="card-header">
+                        <h4 class="display-4"> <%= cars[i].number %></h4>
+                    </div>
+                    <div class="card-text">
+                        <h4 class="display-4"><%= cars[i].dock_number %></h4>
+                    </div>
+                    <div class="card-footer">
+                        <a href="./acknowledge/<%= cars[i].number %>">Acknowledge</a>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+<% include ../partials/footer.ejs %>
+</body>
+<script>
+    if (document.getElementsByClassName('danger').length != 0) {
+        var alarm = new Audio('/alarm.mp3');
+        alarm.loop = true;
+        alarm.play();
+    }
+</script>
+</html>
